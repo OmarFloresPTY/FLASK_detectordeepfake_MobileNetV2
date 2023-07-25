@@ -11,8 +11,7 @@ import tensorflow as tf
 app = Flask(__name__)
 
 # Carga el modelo de clasificación
-# modelo = tf.keras.models.load_model('./Modelo_Guardado')
-modelo = tf.keras.models.load_model('keras_metadata.pb')
+modelo = tf.keras.models.load_model('./Modelo_Guardado')
 
 def categorizar_IMG(imagen):
     img = Image.open(imagen)
