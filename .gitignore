@@ -1,1 +1,4 @@
 venv/
+Modelo_Convertido/
+corsconfig.json
+model.json
