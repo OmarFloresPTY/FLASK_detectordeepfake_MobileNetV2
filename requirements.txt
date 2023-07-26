@@ -4,7 +4,6 @@ h5py==3.7.0
 keras==2.10.0
 keras-preprocessing==1.1.2
 numpy==1.21.5
-numpy-base==1.21.5
 opencv==4.6.0
 pillow==9.4.0
 tensorflow==2.10.0
