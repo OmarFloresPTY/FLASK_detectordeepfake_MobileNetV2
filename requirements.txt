@@ -7,7 +7,6 @@ asynctest==0.13.0
 attrs==22.1.0
 blinker==1.4
 brotlipy==0.7.0
-ca-certificates==2023.05.30
 cachetools==4.2.2
 certifi==2022.12.7
 cffi==1.15.1
