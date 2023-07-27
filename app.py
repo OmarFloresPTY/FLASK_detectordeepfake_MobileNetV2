@@ -36,6 +36,7 @@ def categorizar_URL(url):
     img = cv2.resize(img, (224, 224))
     print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
+    print("retorno Dante",np.argmax(prediccion[0], axis=-1))
     return np.argmax(prediccion[0], axis=-1)
 
 
