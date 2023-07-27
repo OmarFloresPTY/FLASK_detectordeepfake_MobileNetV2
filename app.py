@@ -35,10 +35,9 @@ def categorizar_URL(url):
     img = np.array(img).astype(float) / 255.0
     img = cv2.resize(img, (224, 224))
     print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
-    prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
     print("retorno Dante ALSDHJJADSLKAJDKLAD")
-    # return np.argmax(prediccion[0], axis=-1)
-    return 0
+    prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
+    return np.argmax(prediccion[0], axis=-1)
 
 
 @app.route('/', methods=['GET', 'POST'])
