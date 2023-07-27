@@ -11,7 +11,7 @@ import tensorflow as tf
 app = Flask(__name__)
 
 # Carga el modelo de clasificación
-modelo = tf.keras.models.load_model('./Modelo_Guardado')
+modelo = tf.keras.models.load_model('./Modelo_Guardado/')
 
 def categorizar_IMG(imagen):
     img = Image.open(imagen)
@@ -35,8 +35,8 @@ def categorizar_URL(url):
     img = np.array(img).astype(float) / 255.0
     img = cv2.resize(img, (224, 224))
     print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
-    print("retorno Dante ALSDHJJADSLKAJDKLAD")
     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
+    print("NO ME ESTAS LEYENDO SABES?")
     return np.argmax(prediccion[0], axis=-1)
 
 
