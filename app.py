@@ -20,11 +20,21 @@ def categorizar_IMG(imagen):
     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
     return np.argmax(prediccion[0], axis=-1)
 
+# def categorizar_URL(url):
+#     respuesta = rq.get(url)
+#     img = Image.open(BytesIO(respuesta.content))
+#     img = np.array(img).astype(float) / 255.0
+#     img = cv2.resize(img, (224, 224))
+#     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
+#     return np.argmax(prediccion[0], axis=-1)
+
 def categorizar_URL(url):
     respuesta = rq.get(url)
     img = Image.open(BytesIO(respuesta.content))
+    print("Shape de la imagen antes del redimensionamiento:", np.array(img).shape)  # Agrega este registro
     img = np.array(img).astype(float) / 255.0
     img = cv2.resize(img, (224, 224))
+    print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
     return np.argmax(prediccion[0], axis=-1)
 
