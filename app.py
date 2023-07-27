@@ -31,16 +31,23 @@ def categorizar_IMG(imagen):
 def categorizar_URL(url):
     try:
         respuesta = rq.get(url)
+        if respuesta.status_code != 200:
+            return "Error: No se pudo descargar la imagen desde la URL"
+
         img = Image.open(BytesIO(respuesta.content))
-        print("Shape de la imagen antes del redimensionamiento:", np.array(img).shape)  # Agrega este registro
-        img = np.array(img).astype(float) / 255.0
+        img_array = np.array(img)
+        if len(img_array.shape) != 3 or img_array.shape[2] != 3:
+            return "Error: La imagen no tiene el formato adecuado (no es RGB)"
+        
+        print("Shape de la imagen antes del redimensionamiento:", img_array.shape)  # Agrega este registro
+        img = img_array.astype(float) / 255.0
         img = cv2.resize(img, (224, 224))
         print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
+
         prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
-        print("NO ME ESTAS LEYENDO SABES?")
         return np.argmax(prediccion[0], axis=-1)
     except Exception as e:
-        return "Error al abrir la imagen" + str(e)
+        return "Error al procesar la imagen: " + str(e)
 
 
 @app.route('/', methods=['GET', 'POST'])
