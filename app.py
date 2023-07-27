@@ -29,15 +29,18 @@ def categorizar_IMG(imagen):
 #     return np.argmax(prediccion[0], axis=-1)
 
 def categorizar_URL(url):
-    respuesta = rq.get(url)
-    img = Image.open(BytesIO(respuesta.content))
-    print("Shape de la imagen antes del redimensionamiento:", np.array(img).shape)  # Agrega este registro
-    img = np.array(img).astype(float) / 255.0
-    img = cv2.resize(img, (224, 224))
-    print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
-    prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
-    print("NO ME ESTAS LEYENDO SABES?")
-    return np.argmax(prediccion[0], axis=-1)
+    try:
+        respuesta = rq.get(url)
+        img = Image.open(BytesIO(respuesta.content))
+        print("Shape de la imagen antes del redimensionamiento:", np.array(img).shape)  # Agrega este registro
+        img = np.array(img).astype(float) / 255.0
+        img = cv2.resize(img, (224, 224))
+        print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
+        prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
+        print("NO ME ESTAS LEYENDO SABES?")
+        return np.argmax(prediccion[0], axis=-1)
+    except Exception as e:
+        return "Error al abrir la imagen" + str(e)
 
 
 @app.route('/', methods=['GET', 'POST'])
