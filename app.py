@@ -15,7 +15,7 @@ app = Flask(__name__)
 # Carga el modelo de clasificación
 # modelo = tf.keras.models.load_model('./Modelo_Guardado/')
 
-modelo =  tf.keras.models.load_model('modelos_guardados/Modelo_Guardado.h5',custom_objects={'KerasLayer': hub.KerasLayer})
+modelo =  tf.keras.models.load_model('Modelo_Guardado.h5',custom_objects={'KerasLayer': hub.KerasLayer})
 
 def categorizar_IMG(imagen):
     img = Image.open(imagen)
