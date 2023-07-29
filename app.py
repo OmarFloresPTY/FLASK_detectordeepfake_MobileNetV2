@@ -13,9 +13,7 @@ import tensorflow_hub as hub
 app = Flask(__name__)
 
 # Carga el modelo de clasificación
-# modelo = tf.keras.models.load_model('./Modelo_Guardado/')
-
-modelo =  tf.keras.models.load_model('Modelo_Guardado.h5',custom_objects={'KerasLayer': hub.KerasLayer})
+modelo = tf.keras.models.load_model('./Modelo_Guardado/')
 
 def categorizar_IMG(imagen):
     img = Image.open(imagen)
@@ -24,34 +22,14 @@ def categorizar_IMG(imagen):
     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
     return np.argmax(prediccion[0], axis=-1)
 
-# def categorizar_URL(url):
-#     respuesta = rq.get(url)
-#     img = Image.open(BytesIO(respuesta.content))
-#     img = np.array(img).astype(float) / 255.0
-#     img = cv2.resize(img, (224, 224))
-#     prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
-#     return np.argmax(prediccion[0], axis=-1)
-
 def categorizar_URL(url):
-    try:
-        respuesta = rq.get(url)
-        if respuesta.status_code != 200:
-            return "Error: No se pudo descargar la imagen desde la URL"
+    respuesta = rq.get(url)
+    img = Image.open(BytesIO(respuesta.content))
+    img = np.array(img).astype(float) / 255.0
+    img = cv2.resize(img, (224, 224))
+    prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
+    return np.argmax(prediccion[0], axis=-1)
 
-        img = Image.open(BytesIO(respuesta.content))
-        img_array = np.array(img)
-        if len(img_array.shape) != 3 or img_array.shape[2] != 3:
-            return "Error: La imagen no tiene el formato adecuado (no es RGB)"
-        
-        print("Shape de la imagen antes del redimensionamiento:", img_array.shape)  # Agrega este registro
-        img = img_array.astype(float) / 255.0
-        img = cv2.resize(img, (224, 224))
-        print("Shape de la imagen después del redimensionamiento:", img.shape)  # Agrega este registro
-
-        prediccion = modelo.predict(img.reshape(-1, 224, 224, 3))
-        return np.argmax(prediccion[0], axis=-1)
-    except Exception as e:
-        return "Error al procesar la imagen: " + str(e)
 
 
 @app.route('/', methods=['GET', 'POST'])
